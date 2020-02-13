@@ -1,0 +1,20 @@
+body {
+  background-color: black;
+}
+
+#cooltext {
+  color: white;
+}
+
+span {
+  position: relative;
+  left: -10px;
+  top: 10px;
+  transition: left 0.5s, top 0.5s;
+}
+
+span:hover {
+  position: relative;
+  left: 0px;
+  top: 0px;
+}
