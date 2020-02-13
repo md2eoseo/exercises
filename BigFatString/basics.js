@@ -19,10 +19,14 @@ function start() {
 
     if (optnum == 1)
       output.value = str[0].toUpperCase() + str.substring(1).toLowerCase();
+
     if (optnum == 2) output.value = str.substring(0, str.indexOf(" "));
+
     if (optnum == 3) output.value = str.substring(0, str.indexOf(" ")).length;
+
     if (optnum == 4)
       output.value = str.substring(str.indexOf(" ") + 1, str.lastIndexOf(" "));
+
     if (optnum == 5) {
       if (
         str.substring(str.length - 4) == ".jpg" ||
@@ -36,18 +40,26 @@ function start() {
       output.value = "";
       for (i = 0; i < str.length; i++) output.value += "*";
     }
+
     if (optnum == 7)
       output.value =
         str.substring(0, 2).toLowerCase() +
         str[2].toUpperCase() +
         str.substring(3).toLowerCase();
+
     if (optnum == 8) {
       let newstr = "";
+
       for (i = 0; i < str.length - 1; i++) {
-        if (str[i] == " ") newstr += " " + str[i++ + 1].toUpperCase();
-        else if (str[i] == "-") newstr += "-" + str[i++ + 1].toUpperCase();
-        else newstr += str[i];
+        if (str[i] == " " || str[i] == "-") {
+          newstr += str[i];
+          while (str[i + 1] == " " || str[i + 1] == "-") {
+            newstr += str[++i];
+          }
+          newstr += str[++i].toUpperCase();
+        } else newstr += str[i];
       }
+
       if (str.length - 1 == i) newstr += str[i];
       output.value = newstr;
     }
