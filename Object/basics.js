@@ -2,23 +2,40 @@
 window.addEventListener("DOMContentLoaded", start);
 
 function start() {
-  let person = {
-    firstName: "Seongtae",
-    age: 23,
-    student: true
+  const Student = {
+    firstName: "",
+    lastName: "",
+    middleName: "",
+    house: "-not decided yet-",
+    isPrefect: false,
+    image: null
   };
 
-  let person3 = {
-    firstName: "Seongtae",
-    age: 23,
-    student: true
-  };
+  let student1 = Object.create(Student);
+  student1.firstName = "Harry";
+  student1.house = "Gryffindor";
+  let student2 = Object.create(Student);
+  student2.firstName = "Draco";
 
-  let person2 = {
-    firstName: "other peter",
-    age: 28,
-    student: false
-  };
+  Student.age = 11;
+
+  // let person = {
+  //   firstName: "Seongtae",
+  //   age: 23,
+  //   student: true
+  // };
+
+  // let person3 = {
+  //   firstName: "Seongtae",
+  //   age: 23,
+  //   student: true
+  // };
+
+  // let person2 = {
+  //   firstName: "other peter",
+  //   age: 28,
+  //   student: false
+  // };
 
   // #5
   //   if (person3 == person) console.log("same!!");
