@@ -2,31 +2,32 @@
 window.addEventListener("DOMContentLoaded", start);
 
 const num = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-let bar;
-let numofbar;
 
 function start() {
-  if (num.length < 20) num.push(getNumberOfCustomers());
-  else {
-    num.shift();
-    num.push(getNumberOfCustomers());
-  }
+  num.shift();
+  num.push(getNumberOfCustomers());
   setHeight();
 }
 
 function setHeight() {
   for (let i = 0; i < num.length; i++) {
-    bar = document.querySelector(`#bars > div:nth-child(${i + 1})`);
+    const bar = document.querySelector(`#bars > div:nth-child(${i + 1})`);
+    const numofbar = document.querySelector(`#nums > div:nth-child(${i + 1})`);
     bar.style.setProperty("--height", num[i]);
-    numofbar = document.querySelector(`#nums > div:nth-child(${i + 1})`);
     numofbar.textContent = num[i];
   }
-  document.querySelectorAll("#nums > div").forEach(
-    (numofbar, i) =>
-      function() {
-        numofbar.innerHTML = num[i];
-      }
-  );
+  // document.querySelectorAll("#bars > div").forEach(
+  //   (bar, i) =>
+  //     function() {
+  //       bar.style.setProperty("--height", num[i]);
+  //     }
+  // );
+  // document.querySelectorAll("#nums > div").forEach(
+  //   (numofbar, i) =>
+  //     function() {
+  //       numofbar.textContent = num[i];
+  //     }
+  // );
 
   setTimeout(start, 1000);
 }
