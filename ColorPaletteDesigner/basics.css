@@ -1,0 +1,17 @@
+#color_palette_show {
+  width: 300px;
+  height: 300px;
+  border: 3px black solid;
+  border-radius: 20px;
+  background-color: #ffffff;
+  margin-bottom: 20px;
+}
+
+#color_palette_detail {
+  height: 80px;
+}
+
+#color_palette_pick {
+  width: 300px;
+  height: 300px;
+}

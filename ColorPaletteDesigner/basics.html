@@ -7,7 +7,18 @@
     <title>Color Palette Designer</title>
   </head>
   <body>
-    <input type="color" id="color" />
+    <div id="color_palette">
+      <div id="color_palette_show"></div>
+      <div id="color_palette_detail">
+        <span>HEX:&nbsp;</span><span class="hex"></span><br />
+        <span>RGB:&nbsp;</span><span class="rgb"></span><br />
+        <span>HSL:&nbsp;</span><span class="hsl"></span><br />
+      </div>
+      <div id="color_palette_pick">
+        <input type="color" id="color" />
+        <canvas class="canvas"></canvas>
+      </div>
+    </div>
     <script src="basics.js"></script>
   </body>
 </html>
