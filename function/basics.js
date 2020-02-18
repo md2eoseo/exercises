@@ -21,6 +21,10 @@ function randomColor() {
     255})`;
 }
 
+function capitalize(str) {
+  return str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase();
+}
+
 function start() {
   const firstName = "Seongtae",
     animalType = "dog",
@@ -29,6 +33,9 @@ function start() {
   console.log(presentPet(firstName, animalType, animalName));
   console.log(getColorString(214, 23, 12));
   document.querySelector("body").style.backgroundColor = randomColor();
+
+  const name = prompt("Name please!");
+  console.log(capitalize(name));
 
   // const a = new Array(7);
   // const q = 7;
