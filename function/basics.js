@@ -37,6 +37,16 @@ function getNameParts(fullname) {
   };
 }
 
+function mockify(str) {
+  let mockified_str = "";
+  for (let i = 0; i < str.length; i++)
+    mockified_str +=
+      Math.floor(Math.random() * 100) % 2 == 0
+        ? str[i].toUpperCase()
+        : str[i].toLowerCase();
+  document.querySelector("h1").innerText = mockified_str;
+}
+
 function start() {
   const firstName = "Seongtae",
     animalType = "dog",
@@ -46,9 +56,11 @@ function start() {
   console.log(getColorString(214, 23, 12));
   document.querySelector("body").style.backgroundColor = randomColor();
 
-  const name = prompt("Name please!");
+  const name = prompt("string please!");
   // console.log(capitalize(name));
-  console.log(getNameParts(name));
+  // console.log(getNameParts(name));
+  // console.log(mockify(name));
+  setInterval(mockify, 500, name);
 
   // const a = new Array(7);
   // const q = 7;
