@@ -26,11 +26,13 @@ function capitalize(str) {
 }
 
 function getNameParts(fullname) {
+  let str = fullname
+    .substring(fullname.indexOf(" ") + 1, fullname.lastIndexOf(" "))
+    .split(" ");
+  for (let i = 0; i < str.length; i++) str[i] = capitalize(str[i]);
   return {
     firstName: capitalize(fullname.substring(0, fullname.indexOf(" "))),
-    middleName: capitalize(
-      fullname.substring(fullname.indexOf(" ") + 1, fullname.lastIndexOf(" "))
-    ),
+    middleName: str.join(" "),
     lastName: capitalize(fullname.substring(fullname.lastIndexOf(" ") + 1))
   };
 }
