@@ -2,25 +2,38 @@ window.addEventListener("DOMContentLoaded", start);
 
 const HTML = {};
 
-sayHello("1");
-const firstName = "Seongtae",
-  animalType = "dog",
-  animalName = "Baduk";
+console.log(sayHello("before the function declared"));
 
 function sayHello(firstName) {
-  console.log(`Hello ${firstName}`);
+  return `Hello ${firstName}`;
 }
 
 function presentPet(firstName, animalType, animalName) {
-  console.log(
-    `My name is ${firstName}, I have a ${animalType} called ${animalName}`
-  );
+  return `My name is ${firstName}, I have a ${animalType} called ${animalName}`;
 }
+
+function getColorString(r, g, b) {
+  return `rgb(${r},${g},${b})`;
+}
+
+function randomColor() {
+  return `rgb(${Math.random() * 255},${Math.random() * 255},${Math.random() *
+    255})`;
+}
+
 function start() {
-  let i = -15;
-  let len = 10;
-  sayHello("Seongtae");
-  presentPet(firstName, animalType, animalName);
-  i = i ? (i < 0 ? Math.max(0, len + i) : i) : 0;
-  console.log(i);
+  const firstName = "Seongtae",
+    animalType = "dog",
+    animalName = "Baduk";
+  console.log(sayHello("Seongtae"));
+  console.log(presentPet(firstName, animalType, animalName));
+  console.log(getColorString(214, 23, 12));
+  document.querySelector("body").style.backgroundColor = randomColor();
+
+  // const a = new Array(7);
+  // const q = 7;
+  // q = 6;
+  // a[2] = 7;
+  // a[2] = 6;
+  // console.log(q);
 }
