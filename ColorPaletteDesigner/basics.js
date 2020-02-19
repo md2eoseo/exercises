@@ -35,47 +35,102 @@ function setting() {
   // console.log(HTML.canvas.width, HTML.canvas.height);
   // console.log(colorCtx.canvas.width, colorCtx.canvas.height);
 
-  let colorX, colorY, colorTimer, r, g, b;
-  setColor(0, 0, 0);
+  let colorX,
+    colorY,
+    colorTimer,
+    r = 0,
+    g = 0,
+    b = 0;
+  setColor(r, g, b);
 
-  HTML.canvas.addEventListener("mousedown", function() {
+  HTML.canvas.addEventListener("mousedown", function(e) {
+    colorX = e.pageX;
+    colorY = e.pageY - 440;
     colorTimer = setInterval(function() {
       const imageData = colorCtx.getImageData(colorX, colorY, 1, 1);
       r = imageData.data[0];
       g = imageData.data[1];
       b = imageData.data[2];
-
       // console.log("hsl(%d,%d%,%d%)", h, s, l);
       // console.log(imageData);
     }, 50);
-
     setColor(r, g, b);
   });
 
   HTML.canvas.addEventListener("mousemove", function(e) {
     colorX = e.pageX;
-    colorY = e.pageY - 440;
+    colorY = e.pageY - 405;
     // console.log(`x,y -> ${colorX},${colorY}`);
     setColor(r, g, b);
   });
 
   window.addEventListener("mouseup", function(e) {
+    colorX = e.pageX;
+    colorY = e.pageY - 440;
     clearInterval(colorTimer);
     setColor(r, g, b);
   });
 }
 
-function setColor(r, g, b) {
+function pad(n, width) {
+  n += "";
+  return n.length >= width ? n : new Array(width - n.length + 1).join("0") + n;
+}
+
+function hsl2rgb(h, s, l) {
+  s /= 100;
+  l /= 100;
+
+  let c = (1 - Math.abs(2 * l - 1)) * s,
+    x = c * (1 - Math.abs(((h / 60) % 2) - 1)),
+    m = l - c / 2,
+    r = 0,
+    g = 0,
+    b = 0;
+
+  if (0 <= h && h < 60) {
+    r = c;
+    g = x;
+    b = 0;
+  } else if (60 <= h && h < 120) {
+    r = x;
+    g = c;
+    b = 0;
+  } else if (120 <= h && h < 180) {
+    r = 0;
+    g = c;
+    b = x;
+  } else if (180 <= h && h < 240) {
+    r = 0;
+    g = x;
+    b = c;
+  } else if (240 <= h && h < 300) {
+    r = x;
+    g = 0;
+    b = c;
+  } else if (300 <= h && h < 360) {
+    r = c;
+    g = 0;
+    b = x;
+  }
+  r = Math.round((r + m) * 255);
+  g = Math.round((g + m) * 255);
+  b = Math.round((b + m) * 255);
+
+  return "rgb(" + r + "," + g + "," + b + ")";
+}
+
+function rgb2hsl(r, g, b) {
   let h, s, l;
-  const rr = r / 255,
-    gg = g / 255,
-    bb = b / 255;
-  const min = Math.min(rr, gg, bb);
-  const max = Math.max(rr, gg, bb);
+  r /= 255;
+  g /= 255;
+  b /= 255;
+  const min = Math.min(r, g, b);
+  const max = Math.max(r, g, b);
   if (max === min) h = 0;
-  else if (max === rr) h = 60 * (0 + (gg - bb) / (max - min));
-  else if (max === gg) h = 60 * (2 + (bb - rr) / (max - min));
-  else if (max === bb) h = 60 * (4 + (rr - gg) / (max - min));
+  else if (max === r) h = 60 * (0 + (g - b) / (max - min));
+  else if (max === g) h = 60 * (2 + (b - r) / (max - min));
+  else if (max === b) h = 60 * (4 + (r - g) / (max - min));
   if (h < 0) h = h + 360;
   l = (min + max) / 2;
   if (max === 0 || min === 1) s = 0;
@@ -86,22 +141,35 @@ function setColor(r, g, b) {
   h = Math.floor(h);
   s = Math.floor(s);
   l = Math.floor(l);
+  return [h, s, l];
+}
 
+function rgb2hex(r, g, b) {
+  return `#${pad(r.toString(16), 2)}${pad(g.toString(16), 2)}${pad(
+    b.toString(16),
+    2
+  )}`;
+}
+
+function rgb2str(r, g, b) {
+  return `rgb(${r},${g},${b})`;
+}
+
+function setColor(r, g, b) {
+  const hsl = rgb2hsl(r, g, b);
   HTML.show = document.querySelector("#color_palette_show");
   HTML.hex = document.querySelector(".hex");
   HTML.rgb = document.querySelector(".rgb");
   HTML.hsl = document.querySelector(".hsl");
-  HTML.hex.innerText = `#${r.toString(16) == 0 ? "00" : r.toString(16)}${
-    g.toString(16) == 0 ? "00" : g.toString(16)
-  }${b.toString(16) == 0 ? "00" : b.toString(16)}`;
+  HTML.hex.innerText = rgb2hex(r, g, b);
   HTML.rgb.innerText = `${r}, ${g}, ${b}`;
-  HTML.hsl.innerText = `${h}, ${s}%, ${l}%`;
-  HTML.show.style.backgroundColor = `rgb(${r},${g},${b})`;
+  HTML.hsl.innerText = `${hsl[0]}, ${hsl[1]}%, ${hsl[2]}%`;
+  HTML.show.style.backgroundColor = rgb2str(r, g, b);
 }
 
 function start() {
-  document.querySelector("#color").addEventListener("change", function(e) {
-    console.log(r.toString(16));
-  });
   setting();
+  // document.querySelector("#color").addEventListener("change", function(e) {
+  //   console.log(document.querySelector("#color").value);
+  // });
 }
