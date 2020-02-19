@@ -8,19 +8,40 @@
   </head>
   <body>
     <div id="color_palette">
-      <div class="color_palette"></div>
-      <div class="color_palette"></div>
-      <div id="color_palette_show"></div>
-      <div class="color_palette"></div>
-      <div class="color_palette"></div>
-      <div id="color_palette_detail">
+      <div id="color_palette_pick">
+        <!-- <input type="color" id="color" /> -->
+        <canvas></canvas>
+      </div>
+      <div class="color_box other_box"></div>
+      <div class="color_box other_box"></div>
+      <div id="base_box" class="color_box"></div>
+      <div class="color_box other_box"></div>
+      <div class="color_box other_box"></div>
+      <div class="color_detail other_color">
         <span>HEX:&nbsp;</span><span class="hex"></span><br />
         <span>RGB:&nbsp;</span><span class="rgb"></span><br />
         <span>HSL:&nbsp;</span><span class="hsl"></span><br />
       </div>
-      <div id="color_palette_pick">
-        <!-- <input type="color" id="color" /> -->
-        <canvas class="canvas"></canvas>
+      <div class="color_detail other_color">
+        <span>HEX:&nbsp;</span><span class="hex"></span><br />
+        <span>RGB:&nbsp;</span><span class="rgb"></span><br />
+        <span>HSL:&nbsp;</span><span class="hsl"></span><br />
+      </div>
+      <div id="color_palette_detail" class="color_detail">
+        <!-- <span>Base Color</span> -->
+        <span>HEX:&nbsp;</span><span class="hex"></span><br />
+        <span>RGB:&nbsp;</span><span class="rgb"></span><br />
+        <span>HSL:&nbsp;</span><span class="hsl"></span><br />
+      </div>
+      <div class="color_detail other_color">
+        <span>HEX:&nbsp;</span><span class="hex"></span><br />
+        <span>RGB:&nbsp;</span><span class="rgb"></span><br />
+        <span>HSL:&nbsp;</span><span class="hsl"></span><br />
+      </div>
+      <div class="color_detail other_color">
+        <span>HEX:&nbsp;</span><span class="hex"></span><br />
+        <span>RGB:&nbsp;</span><span class="rgb"></span><br />
+        <span>HSL:&nbsp;</span><span class="hsl"></span><br />
       </div>
     </div>
     <script src="basics.js"></script>

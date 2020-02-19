@@ -3,20 +3,29 @@ body {
   padding: 0;
 }
 
-#color_palette_show {
-  width: 300px;
-  height: 300px;
+.color_box {
+  width: 200px;
+  height: 200px;
   border: 3px black solid;
   border-radius: 20px;
   background-color: #ffffff;
   margin-bottom: 20px;
+  display: inline-flex;
+}
+
+.color_detail {
+  width: 200px;
+  height: 70px;
+  margin-right: 10px;
+  display: inline-block;
 }
 
 #color_palette_detail {
-  height: 80px;
+  border: 1px black solid;
 }
 
 #color_palette_pick {
   width: 300px;
   height: 150px;
+  margin-bottom: 20px;
 }

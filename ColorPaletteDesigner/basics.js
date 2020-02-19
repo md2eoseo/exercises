@@ -10,7 +10,7 @@ window.addEventListener("DOMContentLoaded", start);
 const HTML = {};
 
 function setting() {
-  HTML.canvas = document.querySelector(".canvas");
+  HTML.canvas = document.querySelector("canvas");
   const colorCtx = HTML.canvas.getContext("2d");
 
   let gradient = colorCtx.createLinearGradient(0, 0, HTML.canvas.width, 0);
@@ -44,8 +44,9 @@ function setting() {
   setColor(r, g, b);
 
   HTML.canvas.addEventListener("mousedown", function(e) {
+    // 마우스 기준점
     colorX = e.pageX;
-    colorY = e.pageY - 440;
+    colorY = e.pageY;
     colorTimer = setInterval(function() {
       const imageData = colorCtx.getImageData(colorX, colorY, 1, 1);
       r = imageData.data[0];
@@ -58,15 +59,17 @@ function setting() {
   });
 
   HTML.canvas.addEventListener("mousemove", function(e) {
+    // 마우스 기준점
     colorX = e.pageX;
-    colorY = e.pageY - 405;
+    colorY = e.pageY;
     // console.log(`x,y -> ${colorX},${colorY}`);
     setColor(r, g, b);
   });
 
   window.addEventListener("mouseup", function(e) {
+    // 마우스 기준점
     colorX = e.pageX;
-    colorY = e.pageY - 440;
+    colorY = e.pageY;
     clearInterval(colorTimer);
     setColor(r, g, b);
   });
@@ -145,26 +148,128 @@ function rgb2hsl(r, g, b) {
 }
 
 function rgb2hex(r, g, b) {
-  return `#${pad(r.toString(16), 2)}${pad(g.toString(16), 2)}${pad(
-    b.toString(16),
+  return `#${pad(Number(r).toString(16), 2)}${pad(
+    Number(g).toString(16),
     2
-  )}`;
+  )}${pad(Number(b).toString(16), 2)}`;
 }
 
 function rgb2str(r, g, b) {
   return `rgb(${r},${g},${b})`;
 }
 
+function str2rgb(str) {
+  let r = str.substring(str.indexOf("(") + 1, str.indexOf(",")),
+    g = str.substring(str.indexOf(",") + 1, str.lastIndexOf(",")),
+    b = str.substring(str.lastIndexOf(",") + 1, str.indexOf(")"));
+  return [r, g, b];
+}
+
 function setColor(r, g, b) {
   const hsl = rgb2hsl(r, g, b);
-  HTML.show = document.querySelector("#color_palette_show");
-  HTML.hex = document.querySelector(".hex");
-  HTML.rgb = document.querySelector(".rgb");
-  HTML.hsl = document.querySelector(".hsl");
+  HTML.base_box = document.querySelector("#base_box");
+  HTML.other_box = document.querySelectorAll(".other_box");
+  HTML.hex = document.querySelector("#color_palette_detail .hex");
+  HTML.rgb = document.querySelector("#color_palette_detail .rgb");
+  HTML.hsl = document.querySelector("#color_palette_detail .hsl");
+  HTML.other_hex = document.querySelectorAll(".other_color .hex");
+  HTML.other_rgb = document.querySelectorAll(".other_color .rgb");
+  HTML.other_hsl = document.querySelectorAll(".other_color .hsl");
   HTML.hex.innerText = rgb2hex(r, g, b);
   HTML.rgb.innerText = `${r}, ${g}, ${b}`;
   HTML.hsl.innerText = `${hsl[0]}, ${hsl[1]}%, ${hsl[2]}%`;
-  HTML.show.style.backgroundColor = rgb2str(r, g, b);
+  HTML.base_box.style.backgroundColor = rgb2str(r, g, b);
+  // setOtherColorAnalogous(hsl[0], hsl[1], hsl[2]);
+  // setOtherColorMonochromatic(hsl[0], hsl[1], hsl[2]);
+  // setOtherColorTriad(hsl[0], hsl[1], hsl[2]);
+  // setOtherColorComplementary(hsl[0], hsl[1], hsl[2]);
+  // setOtherColorCompound(hsl[0], hsl[1], hsl[2]);
+  setOtherColorShades(hsl[0], hsl[1], hsl[2]);
+}
+
+function setOtherColorAnalogous(h, s, l) {
+  // H is shifted a few degrees for each color. S and L are kept constant
+  HTML.other_box.forEach((e, i) => {
+    let changed_h = h;
+    i / 2 < 1
+      ? (changed_h = (h - (2 - i) * 30) % 360)
+      : (changed_h = (h + (i + 1) * 30) % 360);
+    e.style.backgroundColor = hsl2rgb(changed_h, s, l);
+    const rgb = str2rgb(hsl2rgb(changed_h, s, l));
+    HTML.other_hex[i].innerText = rgb2hex(rgb[0], rgb[1], rgb[2]);
+    HTML.other_rgb[i].innerText = `${rgb[0]}, ${rgb[1]}, ${rgb[2]}`;
+    HTML.other_hsl[i].innerText = `${changed_h}, ${s}%, ${l}%`;
+  });
+}
+
+function setOtherColorMonochromatic(h, s, l) {
+  // H is kept constant, each color has either more S, less S, more L or less L (only one change on each color).
+  HTML.other_box.forEach((e, i) => {
+    let changed_s = s - (4 - i) * 20;
+    e.style.backgroundColor = hsl2rgb(h, changed_s, l);
+    const rgb = str2rgb(hsl2rgb(h, changed_s, l));
+    HTML.other_hex[i].innerText = rgb2hex(rgb[0], rgb[1], rgb[2]);
+    HTML.other_rgb[i].innerText = `${rgb[0]}, ${rgb[1]}, ${rgb[2]}`;
+    HTML.other_hsl[i].innerText = `${h}, ${changed_s}%, ${l}%`;
+  });
+}
+
+function setOtherColorTriad(h, s, l) {
+  // Two colors are shifted 60 or 120 degrees from the base. You decide what to do with the two remaining colors. Usually also shifting them, and adjusting the L is prefered.
+  HTML.other_box.forEach((e, i) => {
+    let changed_h = h;
+    i / 2 < 1 ? (changed_h = (h + 60) % 360) : (changed_h = (h + 120) % 360);
+    e.style.backgroundColor = hsl2rgb(changed_h, s, l);
+    const rgb = str2rgb(hsl2rgb(changed_h, s, l));
+    HTML.other_hex[i].innerText = rgb2hex(rgb[0], rgb[1], rgb[2]);
+    HTML.other_rgb[i].innerText = `${rgb[0]}, ${rgb[1]}, ${rgb[2]}`;
+    HTML.other_hsl[i].innerText = `${changed_h}, ${s}%, ${l}%`;
+  });
+}
+
+function setOtherColorComplementary(h, s, l) {
+  // One color is at 180 degrees from the base. You decide how to handle the other three!
+  HTML.other_box.forEach((e, i) => {
+    let changed_h = (h + 180) % 360;
+    e.style.backgroundColor = hsl2rgb(changed_h, s, l);
+    const rgb = str2rgb(hsl2rgb(changed_h, s, l));
+    HTML.other_hex[i].innerText = rgb2hex(rgb[0], rgb[1], rgb[2]);
+    HTML.other_rgb[i].innerText = `${rgb[0]}, ${rgb[1]}, ${rgb[2]}`;
+    HTML.other_hsl[i].innerText = `${changed_h}, ${s}%, ${l}%`;
+  });
+}
+
+function setOtherColorCompound(h, s, l) {
+  // A combination of complementary and analogous - you decide how many colors are complementary, and how many are analogous
+  HTML.other_box.forEach((e, i) => {
+    let changed_h = h;
+    i / 2 < 1
+      ? (changed_h = (h - (2 - i) * 72) % 360)
+      : (changed_h = (h + ((i % 2) + 1) * 72) % 360);
+    e.style.backgroundColor = hsl2rgb(changed_h, s, l);
+    const rgb = str2rgb(hsl2rgb(changed_h, s, l));
+    HTML.other_hex[i].innerText = rgb2hex(rgb[0], rgb[1], rgb[2]);
+    HTML.other_rgb[i].innerText = `${rgb[0]}, ${rgb[1]}, ${rgb[2]}`;
+    HTML.other_hsl[i].innerText = `${changed_h}, ${s}%, ${l}%`;
+  });
+}
+
+function setOtherColorShades(h, s, l) {
+  // H is kept constant, a so is S, but L varies for each color.
+  HTML.other_box.forEach((e, i) => {
+    let changed_l = l;
+    i / 2 < 1
+      ? (changed_l =
+          l - (2 - i) * 20 < 0
+            ? l - (2 - i) * 20 + 100
+            : (l - (2 - i) * 20) % 100)
+      : (changed_l = (l + ((i % 2) + 1) * 20) % 100);
+    e.style.backgroundColor = hsl2rgb(h, s, changed_l);
+    const rgb = str2rgb(hsl2rgb(h, s, changed_l));
+    HTML.other_hex[i].innerText = rgb2hex(rgb[0], rgb[1], rgb[2]);
+    HTML.other_rgb[i].innerText = `${rgb[0]}, ${rgb[1]}, ${rgb[2]}`;
+    HTML.other_hsl[i].innerText = `${h}, ${s}%, ${changed_l}%`;
+  });
 }
 
 function start() {
