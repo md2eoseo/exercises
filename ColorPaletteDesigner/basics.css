@@ -3,6 +3,10 @@ body {
   padding: 0;
 }
 
+#select_mode {
+  display: inline-flex;
+}
+
 .color_box {
   width: 200px;
   height: 200px;
@@ -25,7 +29,5 @@ body {
 }
 
 #color_palette_pick {
-  width: 300px;
-  height: 150px;
   margin-bottom: 20px;
 }

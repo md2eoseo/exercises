@@ -8,6 +8,7 @@ window.addEventListener("DOMContentLoaded", start);
 // https://developer.mozilla.org/en-US/docs/Web/API/Element/mouseup_event
 
 const HTML = {};
+let mode = "analogous";
 
 function setting() {
   HTML.canvas = document.querySelector("canvas");
@@ -41,6 +42,19 @@ function setting() {
     r = 0,
     g = 0,
     b = 0;
+
+  const rad = document.select_mode.mode;
+  // let prev = null;
+  for (let i = 0; i < rad.length; i++) {
+    rad[i].addEventListener("change", function() {
+      // prev ? console.log(prev.value) : null;
+      // if (this !== prev) prev = this;
+      console.log(this.value);
+      mode = this.value;
+      setColor(r, g, b);
+    });
+  }
+
   setColor(r, g, b);
 
   HTML.canvas.addEventListener("mousedown", function(e) {
@@ -179,12 +193,15 @@ function setColor(r, g, b) {
   HTML.rgb.innerText = `${r}, ${g}, ${b}`;
   HTML.hsl.innerText = `${hsl[0]}, ${hsl[1]}%, ${hsl[2]}%`;
   HTML.base_box.style.backgroundColor = rgb2str(r, g, b);
-  // setOtherColorAnalogous(hsl[0], hsl[1], hsl[2]);
-  // setOtherColorMonochromatic(hsl[0], hsl[1], hsl[2]);
-  // setOtherColorTriad(hsl[0], hsl[1], hsl[2]);
-  // setOtherColorComplementary(hsl[0], hsl[1], hsl[2]);
-  // setOtherColorCompound(hsl[0], hsl[1], hsl[2]);
-  setOtherColorShades(hsl[0], hsl[1], hsl[2]);
+
+  if (mode == "analogous") setOtherColorAnalogous(hsl[0], hsl[1], hsl[2]);
+  if (mode == "monochromatic")
+    setOtherColorMonochromatic(hsl[0], hsl[1], hsl[2]);
+  if (mode == "triad") setOtherColorTriad(hsl[0], hsl[1], hsl[2]);
+  if (mode == "complementary")
+    setOtherColorComplementary(hsl[0], hsl[1], hsl[2]);
+  if (mode == "compound") setOtherColorCompound(hsl[0], hsl[1], hsl[2]);
+  if (mode == "shades") setOtherColorShades(hsl[0], hsl[1], hsl[2]);
 }
 
 function setOtherColorAnalogous(h, s, l) {
@@ -274,7 +291,4 @@ function setOtherColorShades(h, s, l) {
 
 function start() {
   setting();
-  // document.querySelector("#color").addEventListener("change", function(e) {
-  //   console.log(document.querySelector("#color").value);
-  // });
 }

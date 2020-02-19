@@ -12,6 +12,36 @@
         <!-- <input type="color" id="color" /> -->
         <canvas></canvas>
       </div>
+      <form name="select_mode">
+        <input
+          type="radio"
+          id="analogous"
+          name="mode"
+          value="analogous"
+          checked="true"
+        />
+        <label for="analogous">Analogous</label>
+        <input
+          type="radio"
+          id="monochromatic"
+          name="mode"
+          value="monochromatic"
+        />
+        <label for="monochromatic">Monochromatic</label>
+        <input type="radio" id="triad" name="mode" value="triad" />
+        <label for="triad">Triad</label>
+        <input
+          type="radio"
+          id="complementary"
+          name="mode"
+          value="complementary"
+        />
+        <label for="complementary">Complementary</label>
+        <input type="radio" id="compound" name="mode" value="compound" />
+        <label for="compound">Compound</label>
+        <input type="radio" id="shades" name="mode" value="shades" />
+        <label for="shades">Shades</label>
+      </form>
       <div class="color_box other_box"></div>
       <div class="color_box other_box"></div>
       <div id="base_box" class="color_box"></div>
