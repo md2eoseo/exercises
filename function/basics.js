@@ -47,21 +47,44 @@ function mockify(str) {
   document.querySelector("h1").innerText = mockified_str;
 }
 
+function redAlert() {
+  console.log("%cRed Alert!", "color:red; font-size:x-large");
+}
+function blueAlert() {
+  console.log("%cBlue Alert!", "color:blue; font-size:large");
+}
+function yellowAlert() {
+  console.log("%cYellow Alert!", "color:yellow; font-size:small");
+}
+function greenAlert() {
+  console.log("%cGreen Alert!", "color:green; font-size:x-small");
+}
+function log(type) {
+  type();
+}
+
 function start() {
-  const firstName = "Seongtae",
-    animalType = "dog",
-    animalName = "Baduk";
-  console.log(sayHello("Seongtae"));
-  console.log(presentPet(firstName, animalType, animalName));
-  console.log(getColorString(214, 23, 12));
-  document.querySelector("body").style.backgroundColor = randomColor();
+  // parameter로 function 넘길 수 있음
+  log(redAlert);
+  log(blueAlert);
+  log(yellowAlert);
+  log(greenAlert);
 
-  const name = prompt("string please!");
-  // console.log(capitalize(name));
-  // console.log(getNameParts(name));
-  // console.log(mockify(name));
-  setInterval(mockify, 500, name);
+  // const firstName = "Seongtae",
+  //   animalType = "dog",
+  //   animalName = "Baduk";
+  // console.log(sayHello("Seongtae"));
+  // console.log(presentPet(firstName, animalType, animalName));
+  // console.log(getColorString(214, 23, 12));
+  // document.querySelector("body").style.backgroundColor = randomColor();
 
+  // const name = prompt("string please!");
+  // // console.log(capitalize(name));
+  // // console.log(getNameParts(name));
+  // // console.log(mockify(name));
+  // setInterval(mockify, 500, name);
+
+  // array value 수정 가능
   // const a = new Array(7);
   // const q = 7;
   // q = 6;
