@@ -209,7 +209,9 @@ function setOtherColorAnalogous(h, s, l) {
   HTML.other_box.forEach((e, i) => {
     let changed_h = h;
     i / 2 < 1
-      ? (changed_h = (h - (2 - i) * 30) % 360)
+      ? h - (2 - i) * 30 < 0
+        ? (changed_h = h - (2 - i) * 30 + 360)
+        : (changed_h = (h - (2 - i) * 30) % 360)
       : (changed_h = (h + (i + 1) * 30) % 360);
     e.style.backgroundColor = hsl2rgb(changed_h, s, l);
     const rgb = str2rgb(hsl2rgb(changed_h, s, l));
@@ -261,7 +263,9 @@ function setOtherColorCompound(h, s, l) {
   HTML.other_box.forEach((e, i) => {
     let changed_h = h;
     i / 2 < 1
-      ? (changed_h = (h - (2 - i) * 72) % 360)
+      ? h - (2 - i) * 72 < 0
+        ? (changed_h = h - (2 - i) * 72 + 360)
+        : (changed_h = (h - (2 - i) * 72) % 360)
       : (changed_h = (h + ((i % 2) + 1) * 72) % 360);
     e.style.backgroundColor = hsl2rgb(changed_h, s, l);
     const rgb = str2rgb(hsl2rgb(changed_h, s, l));
