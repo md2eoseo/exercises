@@ -63,13 +63,42 @@ function log(type) {
   type();
 }
 
-function start() {
-  // parameter로 function 넘길 수 있음
-  log(redAlert);
-  log(blueAlert);
-  log(yellowAlert);
-  log(greenAlert);
+const people = ["HArry", "Ron", "Hermione", "Neville"];
 
+function test(a, b, c, d) {
+  console.log(a, b, c, d);
+}
+
+function isVowel(letter) {
+  if (
+    letter == "a" ||
+    letter == "e" ||
+    letter == "i" ||
+    letter == "o" ||
+    letter == "u"
+  )
+    return true;
+  return false;
+}
+
+function numberOfVowels(text) {
+  let vowels = 0;
+  Array.from(text).forEach(letter => {
+    if (isVowel(letter)) vowels++;
+  });
+  return vowels;
+}
+
+function start() {
+  // console.log(numberOfVowels("asdfpoiu"));
+  // arr.forEach parameters
+  // currentValue, index, entireArray
+  // people.forEach(test);
+  // parameter로 function 넘길 수 있음
+  // log(redAlert);
+  // log(blueAlert);
+  // log(yellowAlert);
+  // log(greenAlert);
   // const firstName = "Seongtae",
   //   animalType = "dog",
   //   animalName = "Baduk";
@@ -77,13 +106,11 @@ function start() {
   // console.log(presentPet(firstName, animalType, animalName));
   // console.log(getColorString(214, 23, 12));
   // document.querySelector("body").style.backgroundColor = randomColor();
-
   // const name = prompt("string please!");
   // // console.log(capitalize(name));
   // // console.log(getNameParts(name));
   // // console.log(mockify(name));
   // setInterval(mockify, 500, name);
-
   // array value 수정 가능
   // const a = new Array(7);
   // const q = 7;
