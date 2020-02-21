@@ -30,11 +30,19 @@ function start() {
   loadJSON();
 }
 
-function sortAnimalsByData(data) {
-  const result = allAnimals.sort(compareFunction);
+function sortAnimalsByData(data, sort_direction) {
+  let result;
+  if (sort_direction === "asc") result = allAnimals.sort(compareAscFunction);
+  else if (sort_direction === "desc")
+    result = allAnimals.sort(compareDescFunction);
 
-  function compareFunction(a, b) {
+  function compareAscFunction(a, b) {
     if (a[data] < b[data]) return -1;
+    else if (a[data] === b[data]) return 0;
+    else return 1;
+  }
+  function compareDescFunction(a, b) {
+    if (a[data] > b[data]) return -1;
     else if (a[data] === b[data]) return 0;
     else return 1;
   }
@@ -42,11 +50,14 @@ function sortAnimalsByData(data) {
 }
 
 function sortButton(e) {
-  let selected_sort = "";
-
-  selected_sort = e.target.dataset.sort;
-  console.log("sort type : " + selected_sort);
-  displayList(sortAnimalsByData(selected_sort));
+  const selected_sort = e.target.dataset.sort;
+  const selected_sort_direction = e.target.dataset.sortDirection;
+  console.log(selected_sort_direction);
+  displayList(sortAnimalsByData(selected_sort, selected_sort_direction));
+  if (selected_sort_direction === "asc")
+    e.target.dataset.sortDirection = "desc";
+  else if (selected_sort_direction === "desc")
+    e.target.dataset.sortDirection = "asc";
 }
 
 function filterAnimalsByType(type) {
