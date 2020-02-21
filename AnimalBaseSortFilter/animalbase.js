@@ -17,13 +17,13 @@ function start() {
   console.log("ready");
 
   // TODO: Add event-listeners to filter and sort buttons
-  HTML.filter = document
-    .querySelectorAll("[data-action='filter']")
-    .forEach(btn => {
-      btn.addEventListener("click", filterButton);
-    });
+  HTML.filter = document.querySelectorAll("[data-action='filter']");
+  HTML.filter.forEach(btn => {
+    btn.addEventListener("click", filterButton);
+  });
 
-  HTML.sort = document.querySelectorAll("[data-action='sort']").forEach(btn => {
+  HTML.sort = document.querySelectorAll("[data-action='sort']");
+  HTML.sort.forEach(btn => {
     btn.addEventListener("click", sortButton);
   });
 
@@ -32,9 +32,21 @@ function start() {
 
 function sortAnimalsByData(data, sort_direction) {
   let result;
-  if (sort_direction === "asc") result = allAnimals.sort(compareAscFunction);
-  else if (sort_direction === "desc")
+
+  HTML.sort.forEach((e, i) => {
+    e.style.textDecoration = "";
+    e.innerText = ["Name", "Type", "Description", "Age"][i];
+  });
+  document.querySelector(`[data-sort='${data}']`).style.textDecoration =
+    "underline";
+
+  if (sort_direction === "asc") {
+    document.querySelector(`[data-sort='${data}']`).innerText += "↓";
+    result = allAnimals.sort(compareAscFunction);
+  } else if (sort_direction === "desc") {
+    document.querySelector(`[data-sort='${data}']`).innerText += "↑";
     result = allAnimals.sort(compareDescFunction);
+  }
 
   function compareAscFunction(a, b) {
     if (a[data] < b[data]) return -1;
@@ -50,9 +62,9 @@ function sortAnimalsByData(data, sort_direction) {
 }
 
 function sortButton(e) {
+  // target은 button을 위한 것
   const selected_sort = e.target.dataset.sort;
   const selected_sort_direction = e.target.dataset.sortDirection;
-  console.log(selected_sort_direction);
   displayList(sortAnimalsByData(selected_sort, selected_sort_direction));
   if (selected_sort_direction === "asc")
     e.target.dataset.sortDirection = "desc";
