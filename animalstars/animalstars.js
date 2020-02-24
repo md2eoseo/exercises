@@ -86,13 +86,13 @@ function displayAnimal(animal) {
 
   // TODO: Add event listener to click on star
   const star_btn = clone.querySelector("[data-field=star]");
-  star_btn.addEventListener("click", function() {
-    animal.star = !animal.star;
-    this.textContent = animal.star ? "⭐" : "☆";
-  });
+  star_btn.addEventListener("click", toggleStar(animal));
 
   // append clone to list
   document.querySelector("#list tbody").appendChild(clone);
 }
 
-function star() {}
+function toggleStar(animal) {
+  animal.star = !animal.star;
+  this.textContent = animal.star ? "⭐" : "☆";
+}
