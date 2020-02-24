@@ -30,6 +30,20 @@ function start() {
   loadJSON();
 }
 
+function setSorting(sortby) {
+  // toggle if already in use
+  if (sortby === settings.sortBy)
+    settings.sortDir = settings.sortDir === "asc" ? "desc" : "asc";
+  else settings.sortBy = sortby;
+}
+
+function sortList(list) {
+  const dir = settings.sortDir === "desc" ? 1 : -1;
+  list.sort((a, b) =>
+    a[settings.sortBy] < b[settings.sortBy] ? dir : dir * -1
+  );
+}
+
 function sortAnimalsByData(data, sort_direction) {
   let result;
 
