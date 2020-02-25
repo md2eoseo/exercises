@@ -174,7 +174,6 @@ function displayAnimal(animal, i) {
   HTML.star = clone.querySelector("[data-field=star]");
   HTML.star.addEventListener("click", function() {
     allAnimals[i].star = !allAnimals[i].star;
-    this.textContent = allAnimals[i].star ? "⭐" : "☆";
     buildList();
   });
 
