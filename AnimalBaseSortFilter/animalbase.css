@@ -30,3 +30,17 @@
 #sorting [data-sort-direction="desc"][data-action="sorted"]:after {
   content: "↑";
 } */
+
+[data-action] {
+  cursor: pointer;
+}
+
+#sorting th {
+  filter: grayscale(100%);
+}
+
+[data-field="star"] {
+  text-align: center;
+  cursor: pointer;
+  min-width: 2em;
+}

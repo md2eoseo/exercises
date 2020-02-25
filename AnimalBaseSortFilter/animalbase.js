@@ -5,12 +5,19 @@ window.addEventListener("DOMContentLoaded", start);
 const HTML = {};
 let allAnimals = [];
 
+const settings = {
+  filter: null,
+  sortBy: null,
+  sortDir: "asc"
+};
+
 // The prototype for all animals:
 const Animal = {
   name: "",
   desc: "-unknown animal-",
   type: "",
-  age: 0
+  age: 0,
+  star: false
 };
 
 function start() {
@@ -51,7 +58,7 @@ function sortAnimalsByData(data, sort_direction) {
 
   HTML.sort.forEach((e, i) => {
     e.style.textDecoration = "";
-    e.innerText = ["Name", "Type", "Description", "Age"][i];
+    e.innerText = ["⭐", "Name", "Type", "Description", "Age"][i];
   });
   document.querySelector(`[data-sort='${data}']`).style.textDecoration =
     "underline";
@@ -119,7 +126,7 @@ function prepareObjects(jsonData) {
   allAnimals = jsonData.map(preapareObject);
 
   // TODO: This might not be the function we want to call first
-  displayList(allAnimals);
+  buildList();
 }
 
 function preapareObject(jsonObject) {
@@ -130,8 +137,15 @@ function preapareObject(jsonObject) {
   animal.desc = texts[2];
   animal.type = texts[3];
   animal.age = jsonObject.age;
+  animal.star = false;
 
   return animal;
+}
+
+function buildList() {
+  const currentList = allAnimals;
+
+  displayList(currentList);
 }
 
 function displayList(animals) {
@@ -142,17 +156,27 @@ function displayList(animals) {
   animals.forEach(displayAnimal);
 }
 
-function displayAnimal(animal) {
+function displayAnimal(animal, i) {
   // create clone
   const clone = document
     .querySelector("template#animal")
     .content.cloneNode(true);
 
   // set clone data
+  clone.querySelector("[data-field=star]").textContent = animal.star
+    ? "⭐"
+    : "☆";
   clone.querySelector("[data-field=name]").textContent = animal.name;
   clone.querySelector("[data-field=desc]").textContent = animal.desc;
   clone.querySelector("[data-field=type]").textContent = animal.type;
   clone.querySelector("[data-field=age]").textContent = animal.age;
+
+  HTML.star = clone.querySelector("[data-field=star]");
+  HTML.star.addEventListener("click", function() {
+    allAnimals[i].star = !allAnimals[i].star;
+    this.textContent = allAnimals[i].star ? "⭐" : "☆";
+    buildList();
+  });
 
   // append clone to list
   document.querySelector("#list tbody").appendChild(clone);
