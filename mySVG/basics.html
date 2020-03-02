@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="basics.css" />
+    <title>mySVG</title>
+  </head>
+  <body>
+    <h1>My SVG</h1>
+    <?xml version="1.0" standalone="no"?>
+
+    <svg
+      width="250"
+      height="250"
+      version="1.1"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <rect
+        x="10"
+        y="10"
+        width="60"
+        height="40"
+        stroke="black"
+        fill="transparent"
+        stroke-width="5"
+      ></rect>
+      <rect
+        x="150"
+        y="150"
+        rx="50"
+        ry="50"
+        width="50"
+        height="50"
+        stroke="black"
+        fill="transparent"
+        stroke-width="5"
+      />
+
+      <circle
+        cx="110"
+        cy="30"
+        r="20"
+        stroke="black"
+        fill="transparent"
+        stroke-width="5"
+      />
+      <ellipse
+        cx="40"
+        cy="80"
+        rx="30"
+        ry="20"
+        stroke="black"
+        fill="transparent"
+        stroke-width="5"
+      />
+
+      <line x1="90" x2="120" y1="70" y2="100" stroke="black" stroke-width="5" />
+
+      <!-- <polyline
+        points="10,10 70,50 110,30 110,50 40,80 40,100 70,80 90,70 120,100"
+        stroke="red"
+        fill="transparent"
+        stroke-width="3"
+      /> -->
+      <path
+        d="M10,10 Q70,50 110,30 T110,50 T40,80 40,100 70,80 90,70 120,100"
+        stroke="blue"
+        fill="transparent"
+        storke-width="2"
+      />
+      <!-- <path
+        d="M 10 10 L 70 50 L 110 30 v 20 L 40,80 V 100 l 30,-20 L90,70 l 30,30"
+        stroke="blue"
+        fill="transparent"
+        storke-width="2"
+      /> -->
+      <!-- <polygon
+        points="10,10 70,50 110,30 110,50 40,80 40,100 70,80 90,70 120,100"
+        stroke="red"
+        fill="transparent"
+        stroke-width="3"
+      /> -->
+    </svg>
+    <script src="basics.js"></script>
+  </body>
+</html>
