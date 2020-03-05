@@ -44,6 +44,12 @@
   background-color: rgb(255, 0, 64);
 }
 
+.reset {
+  width: 80px;
+  text-align: center;
+  border: 1px black solid;
+}
+
 .svg {
   width: 500px;
 }
