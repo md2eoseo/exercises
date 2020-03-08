@@ -8,7 +8,7 @@ section {
 }
 
 section#original {
-  z-index: 100;
+  z-index: 0;
   left: 237.5px;
   top: 156px;
 }
@@ -18,5 +18,9 @@ section#zoomed {
   left: 237.5px;
   top: 156px;
   transform: scale(1.5);
-  display: none;
+  /* display: none; */
 }
+
+/* circle {
+  display: none;
+} */
