@@ -3,6 +3,10 @@
   padding: 0;
 }
 
+:root {
+  --scale: 1.5;
+}
+
 section {
   position: absolute;
 }
@@ -14,10 +18,10 @@ section#original {
 }
 
 section#zoomed {
-  z-index: 0;
+  z-index: 100;
   left: 237.5px;
   top: 156px;
-  transform: scale(1.5);
+  transform: scale(var(--scale));
   /* display: none; */
 }
 

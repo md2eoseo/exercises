@@ -7,18 +7,19 @@ async function start() {
   console.log("basics.js loaded");
   const response = await fetch("map.svg");
   const mySvgData = await response.text();
-  // document.querySelector("section#original").innerHTML = mySvgData;
+  document.querySelector("section#original").innerHTML = mySvgData;
   document.querySelector("section#zoomed").innerHTML = mySvgData;
   startManipulatingTheSvg();
 }
 
 function startManipulatingTheSvg() {
-  // document.querySelectorAll("clipPath").forEach((ele, i) => {
-  //   if (i === 0) ele.classList.add("clip_original");
-  //   if (i === 1) ele.classList.add("clip_zoomed");
-  // });
+  document.querySelectorAll("circle").forEach((ele, i) => {
+    if (i === 1) ele.classList.add("glass");
+  });
   HTML.glass = document.querySelector("#glass");
-  console.log(HTML.glass);
+  HTML.original = document.querySelector("section#original g");
+  HTML.original.setAttribute("clip-path", "");
+  console.log(HTML.original);
 
   window.addEventListener("mousedown", function(e) {
     console.log("mousedown");
@@ -30,6 +31,23 @@ function startManipulatingTheSvg() {
     move(e);
     window.removeEventListener("mousemove", move);
   });
+
+  document.onkeydown = function(event) {
+    switch (event.keyCode) {
+      case 37:
+        HTML.glass.cx.baseVal.value -= 1;
+        break;
+      case 38:
+        HTML.glass.cy.baseVal.value -= 1;
+        break;
+      case 39:
+        HTML.glass.cx.baseVal.value += 1;
+        break;
+      case 40:
+        HTML.glass.cy.baseVal.value += 1;
+        break;
+    }
+  };
 }
 
 function move(e) {
