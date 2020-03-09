@@ -1,0 +1,15 @@
+#balloon {
+  visibility: hidden;
+  width: 0;
+  height: 0;
+}
+
+.rise {
+  animation: rise 15s ease-in infinite;
+}
+
+@keyframes rise {
+  to {
+    y: -1000;
+  }
+}
