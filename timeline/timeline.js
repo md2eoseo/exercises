@@ -13,4 +13,11 @@ async function loadJSON() {
   const response = await fetch("potterfilms.json");
   const jsonData = await response.json();
   console.log(jsonData);
+  clickable();
+}
+
+function clickable() {
+  document
+    .querySelectorAll(".bullet")
+    .forEach((ele, i) => ele.addEventListener("click", e => console.log(i)));
 }
