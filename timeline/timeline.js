@@ -2,6 +2,7 @@
 
 window.addEventListener("DOMContentLoaded", start);
 
+const HTML = {};
 let movie = {};
 
 async function start() {
@@ -20,7 +21,7 @@ async function loadJSON() {
 function clickable() {
   document.querySelectorAll(".bullet").forEach((ele, i) =>
     ele.addEventListener("click", e => {
-      console.log(movie[i]);
+      // modifying infobox with selected movie data
       document.querySelector("text#title_original").innerHTML =
         movie[i].title.original;
       document.querySelector("text#title_danish").innerHTML =
@@ -33,6 +34,13 @@ function clickable() {
       document.querySelector(
         "image#poster"
       ).href.baseVal = `images/${movie[i].poster}`;
+
+      // move infobox line
+      HTML.line = document.querySelector(".st0");
+      HTML.line.setAttribute("x1", Math.floor(ele.cx.baseVal.value));
+      HTML.line.setAttribute("y1", Math.floor(ele.cy.baseVal.value));
+      HTML.line.setAttribute("x2", HTML.line.x1.baseVal.value + 54);
+      HTML.line.setAttribute("y2", HTML.line.y1.baseVal.value - 205);
     })
   );
 }
