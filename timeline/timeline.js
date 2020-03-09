@@ -2,6 +2,8 @@
 
 window.addEventListener("DOMContentLoaded", start);
 
+let movie = {};
+
 async function start() {
   const response = await fetch("final.svg");
   const timelineSVG = await response.text();
@@ -11,13 +13,14 @@ async function start() {
 
 async function loadJSON() {
   const response = await fetch("potterfilms.json");
-  const jsonData = await response.json();
-  console.log(jsonData);
+  movie = await response.json();
   clickable();
 }
 
 function clickable() {
   document
     .querySelectorAll(".bullet")
-    .forEach((ele, i) => ele.addEventListener("click", e => console.log(i)));
+    .forEach((ele, i) =>
+      ele.addEventListener("click", e => console.log(movie[i]))
+    );
 }
