@@ -41,6 +41,15 @@ function clickable() {
       HTML.line.setAttribute("y1", Math.floor(ele.cy.baseVal.value));
       HTML.line.setAttribute("x2", HTML.line.x1.baseVal.value + 54);
       HTML.line.setAttribute("y2", HTML.line.y1.baseVal.value - 205);
+
+      // move infobox
+      // https://stackoverflow.com/questions/479591/svg-positioning
+      HTML.infobox = document.querySelector("#infobox");
+      HTML.infobox.setAttribute(
+        "transform",
+        `translate(${HTML.line.x2.baseVal.value - 25},${HTML.line.y2.baseVal
+          .value + 327})`
+      );
     })
   );
 }
