@@ -11,7 +11,8 @@
 }
 
 circle {
-  fill: "red";
-  stroke: "black";
+  fill: red;
+  stroke: black;
   stroke-width: 4;
+  mix-blend-mode: multiply;
 }
