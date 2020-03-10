@@ -4,7 +4,9 @@
 }
 
 :root {
-  --nav-height: 5vh;
+  --nav-height: 3vh;
+  --infobox-height: 1vh;
+  --scroll-ratio: 0;
 }
 
 main {
@@ -19,11 +21,18 @@ nav {
   background-color: #fff;
 }
 
+#scrollinfo {
+  position: fixed;
+  width: calc(var(--scroll-ratio) * 100%);
+  top: var(--nav-height);
+  background-color: red;
+}
+
 .the_container {
-  margin-top: var(--nav-height);
-  /* 아래 줄 없으면 스크롤비헤이비어 스무스 적용 안됨 */
-  height: calc(100vh - var(--nav-height));
-  overflow: scroll;
+  margin-top: calc(var(--nav-height) + var(--infobox-height));
+  /* 아래 줄 없으면 scroll-behavior: smooth, 상단 nav, #scrollinfo position: fixed 적용 안됨 */
+  height: calc(100vh - var(--nav-height) - var(--infobox-height));
+  overflow-y: scroll;
   scroll-behavior: smooth;
   /* scroll-snap-type: y mandatory; */
 
@@ -32,8 +41,8 @@ nav {
 }
 
 .the_container section {
-  /* 일단 섹션이 화면 꽉 차게 만듬 */
-  height: calc(100vh - var(--nav-height));
+  /* make section tag showing on screen fully */
+  height: calc(100vh - var(--nav-height) - var(--infobox-height));
   overflow: hidden;
   scroll-snap-align: start end;
 }
