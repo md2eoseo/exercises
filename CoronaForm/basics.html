@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="basics.css" />
+    <title>CoronaForm</title>
+  </head>
+  <body>
+    <button>Add</button>
+    <fieldset id="main">
+      <legend>COVID-19 Confirmed Patient</legend>
+      <form>
+        <label for="num">Patient Number</label>
+        <input id="num" name="num" required />
+        <p>Please provide appropriate patient number.</p>
+
+        <label for="confirmed_date">Confirmed Date</label>
+        <input type="date" id="confirmed_date" name="confirmed_date" required />
+        <p>Please provide appropriate confiremd date.</p>
+        <fieldset id="status">
+          <legend>Status</legend>
+          <input
+            type="radio"
+            id="self-quarantine"
+            name="status"
+            value="self-quarantine"
+            checked
+          />
+          <label for="self-quarantine">Self-Quarantine</label><br />
+          <input
+            type="radio"
+            id="under treatment"
+            name="status"
+            value="under treatment"
+          />
+          <label for="under treatment">Under Treatment</label><br />
+          <input
+            type="radio"
+            id="full recovery"
+            name="status"
+            value="full recovery"
+          />
+          <label for="full recovery">Full Recovery</label>
+        </fieldset>
+        <fieldset id="route">
+          <p class="hidden">Please select at least one place.</p>
+          <legend>Visited Place</legend>
+          <input type="checkbox" id="park" name="route" value="park" />
+          <label for="park">Park</label>
+          <input type="checkbox" id="pizzeria" name="route" value="pizzeria" />
+          <label for="pizzeria">Pizzeria</label>
+          <input type="checkbox" id="cafe" name="route" value="cafe" />
+          <label for="cafe">Cafe</label>
+          <input type="checkbox" id="grocery" name="route" value="grocery" />
+          <label for="grocery">Grocery</label>
+        </fieldset>
+        <input type="submit" name="submit" />
+      </form>
+    </fieldset>
+    <script src="basics.js"></script>
+  </body>
+</html>
