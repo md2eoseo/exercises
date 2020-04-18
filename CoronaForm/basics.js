@@ -2,17 +2,6 @@
 const DB_URL = "https://corona-57d4.restdb.io/rest/patients";
 const API_KEY = "5e98bd75436377171a0c24a6";
 
-document.querySelector("button").addEventListener("click", () => {
-  const num = ("00000" + Math.floor(Math.random() * 100000)).slice(-6);
-  const data = {
-    num: num,
-    confirmed_date: "04-15-2020",
-    status: "self-quarantine",
-    route: ["pizzeria"],
-  };
-  console.log("submitted " + data.num);
-});
-
 const form = document.querySelector("form");
 const elements = form.elements;
 form.setAttribute("novalidate", true);
@@ -42,7 +31,14 @@ form.addEventListener("submit", (e) => {
   }
 
   if (form.checkValidity() && validForm) {
+    post({
+      num: elements.num.value,
+      confirmed_date: elements.confirmed_date.value,
+      status: elements.status.value,
+      route: checked.map((ele) => ele.value),
+    });
     console.log("submitted " + elements.num.value);
+    form.reset();
   } else {
     formElements.forEach((ele) => {
       if (!ele.checkValidity()) {
@@ -55,4 +51,62 @@ form.addEventListener("submit", (e) => {
 
 window.addEventListener("load", (e) => {
   elements.num.focus();
+  get();
 });
+
+function showPatients(patients) {
+  patients.forEach(showPatient);
+}
+
+function showPatient(patient) {
+  const template = document.querySelector("template").content;
+  const copy = template.cloneNode(true);
+  const parent = document.querySelector("main");
+
+  // Error: when we add new patient, we can only get undefined _id before the record really inserted in database.
+  copy.querySelector("article").dataset.id = patient._id;
+  copy.querySelector("#num").textContent = patient.num;
+  copy.querySelector("#confirmed_date").textContent =
+    " - Confirmed on " + patient.confirmed_date.slice(0, 10);
+  copy.querySelector("#status").textContent = patient.status;
+  copy.querySelector("#route").textContent = patient.route;
+
+  // Error: when we add new patient, we can only get undefined _id before the record really inserted in database.
+  // copy.querySelector(".deleteBtn").addEventListener("click", () => {
+  //   deleteIt(patient._id);
+  // });
+  // copy.querySelector(".updateBtn").addEventListener("click", () => {
+  //   put(patient._id);
+  // });
+
+  parent.appendChild(copy);
+}
+
+function get() {
+  document.querySelector("main").innerHTML = "";
+  fetch(DB_URL, {
+    method: "get",
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+      "x-apikey": API_KEY,
+      "cache-control": "no-cache",
+    },
+  })
+    .then((e) => e.json())
+    .then(showPatients);
+}
+
+function post(data) {
+  const postData = JSON.stringify(data);
+  fetch(DB_URL, {
+    method: "post",
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+      "x-apikey": API_KEY,
+      "cache-control": "no-cache",
+    },
+    body: postData,
+  })
+    .then((res) => res.json())
+    .then(console.log(`inserted ${postData} in database`));
+}

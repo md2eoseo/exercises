@@ -7,7 +7,6 @@
     <title>CoronaForm</title>
   </head>
   <body>
-    <button>Add</button>
     <fieldset id="main">
       <legend>COVID-19 Confirmed Patient</legend>
       <form>
@@ -58,6 +57,19 @@
         <input type="submit" name="submit" />
       </form>
     </fieldset>
+
+    <main></main>
+    <template>
+      <article class="patient">
+        <h1 id="num"></h1>
+        <h2 id="confirmed_date"></h2>
+        <h2 id="status"></h2>
+        <h2 id="route"></h2>
+        <button class="deleteBtn">Delete</button>
+        <button class="updateBtn">Update</button>
+      </article>
+    </template>
+
     <script src="basics.js"></script>
   </body>
 </html>
