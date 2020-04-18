@@ -72,14 +72,28 @@ function showPatient(patient) {
   copy.querySelector("#route").textContent = patient.route;
 
   // Error: when we add new patient, we can only get undefined _id before the record really inserted in database.
-  // copy.querySelector(".deleteBtn").addEventListener("click", () => {
-  //   deleteIt(patient._id);
-  // });
+  copy.querySelector(".deleteBtn").addEventListener("click", () => {
+    deleteIt(patient._id);
+  });
   // copy.querySelector(".updateBtn").addEventListener("click", () => {
   //   put(patient._id);
   // });
 
   parent.appendChild(copy);
+}
+
+function deleteIt(id) {
+  fetch(DB_URL + "/" + id, {
+    method: "delete",
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+      "x-apikey": API_KEY,
+      "cache-control": "no-cache",
+    },
+  })
+    .then((res) => res.json())
+    .then((data) => console.log(`deleted ${data}`));
+  document.querySelector(`article[data-id="${id}"]`).remove();
 }
 
 function get() {
