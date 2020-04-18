@@ -92,7 +92,7 @@ function get() {
       "cache-control": "no-cache",
     },
   })
-    .then((e) => e.json())
+    .then((res) => res.json())
     .then(showPatients);
 }
 
@@ -108,5 +108,8 @@ function post(data) {
     body: postData,
   })
     .then((res) => res.json())
-    .then(console.log(`inserted ${postData} in database`));
+    .then((data) => {
+      showPatient(data);
+      console.log(`inserted ${data} in database`);
+    });
 }
