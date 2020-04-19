@@ -75,11 +75,37 @@ function showPatient(patient) {
   copy.querySelector(".deleteBtn").addEventListener("click", () => {
     deleteIt(patient._id);
   });
-  // copy.querySelector(".updateBtn").addEventListener("click", () => {
-  //   put(patient._id);
-  // });
+  copy.querySelector(".editBtn").addEventListener("click", () => {
+    getSinglePatient(patient);
+  });
 
   parent.appendChild(copy);
+}
+
+function getSinglePatient(patient) {
+  const template = document.querySelector("template#editForm").content;
+  const copy = template.cloneNode(true);
+  const parent = document.querySelector(`article[data-id="${patient._id}"]`);
+
+  copy.querySelector("article").dataset.id = patient._id;
+  copy.querySelector("#edit_num").value = patient.num;
+  copy.querySelector("#edit_confirmed_date").value = patient.confirmed_date;
+  copy.querySelectorAll("[name='status']").forEach((ele) => {
+    if (ele.value == patient.status) {
+      ele.checked = true;
+    }
+  });
+  copy.querySelectorAll("[name='route']").forEach((ele) => {
+    patient.route.forEach((el) => {
+      if (ele.value == el) ele.checked = true;
+    });
+  });
+
+  copy.querySelector(".saveBtn").addEventListener("click", () => {});
+  copy.querySelector(".cancelBtn").addEventListener("click", () => {});
+
+  parent.after(copy);
+  document.querySelector(`article[data-id="${patient._id}"]`).remove();
 }
 
 function deleteIt(id) {
@@ -122,6 +148,7 @@ function post(data) {
     body: postData,
   })
     .then((res) => res.json())
+    // https://stackoverflow.com/questions/28916710/what-do-double-brackets-mean-in-javascript-and-how-to-access-them
     .then((data) => {
       showPatient(data);
       console.log(`inserted ${data} in database`);

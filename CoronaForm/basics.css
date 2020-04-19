@@ -9,7 +9,7 @@
 }
 
 main {
-  display: flex;
+  display: grid;
 }
 
 article {
