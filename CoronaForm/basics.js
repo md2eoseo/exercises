@@ -2,12 +2,21 @@
 const DB_URL = "https://corona-57d4.restdb.io/rest/patients";
 const API_KEY = "5e98bd75436377171a0c24a6";
 
-const form = document.querySelector("#postForm");
-const elements = form.elements;
-form.addEventListener("submit", (e) => {
+window.addEventListener("load", () => {
+  const form = document.querySelector("#postForm");
+  const elements = form.elements;
+  elements.num.focus();
   form.setAttribute("novalidate", true);
-  e.preventDefault();
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    checkValidation(form);
+  });
+  get();
+});
+
+function checkValidation(form) {
   let validForm = false;
+  const elements = form.elements;
 
   const formElements = form.querySelectorAll("input");
   formElements.forEach((ele) => {
@@ -17,8 +26,8 @@ form.addEventListener("submit", (e) => {
     }
   });
 
-  const route = form.querySelector("#route");
-  const route_p = form.querySelector("#route p");
+  const route = form.querySelector(".route");
+  const route_p = form.querySelector(".route p");
   const cbs = [...form.querySelectorAll("[name='route']")];
   const checked = cbs.filter((ele) => ele.checked);
   if (checked.length > 0) {
@@ -31,14 +40,28 @@ form.addEventListener("submit", (e) => {
   }
 
   if (form.checkValidity() && validForm) {
-    post({
-      num: elements.num.value,
-      confirmed_date: elements.confirmed_date.value,
-      status: elements.status.value,
-      route: checked.map((ele) => ele.value),
-    });
-    console.log("submitted " + elements.num.value);
-    form.reset();
+    if (form == document.querySelector("#postForm")) {
+      post({
+        num: elements.num.value,
+        confirmed_date: elements.confirmed_date.value,
+        status: elements.status.value,
+        route: checked.map((ele) => ele.value),
+      });
+      console.log("submitted " + elements.num.value);
+      form.reset();
+    } else {
+      put(
+        {
+          num: elements.num.value,
+          confirmed_date: elements.confirmed_date.value,
+          status: elements.status.value,
+          route: checked.map((ele) => ele.value),
+        },
+        form.parentNode.dataset.id
+      );
+      console.log("edited " + elements.num.value);
+      form.reset();
+    }
   } else {
     formElements.forEach((ele) => {
       if (!ele.checkValidity()) {
@@ -47,12 +70,7 @@ form.addEventListener("submit", (e) => {
     });
     console.log("validation error!!");
   }
-});
-
-window.addEventListener("load", (e) => {
-  elements.num.focus();
-  get();
-});
+}
 
 function showPatients(patients) {
   patients.forEach(showPatient);
@@ -87,8 +105,8 @@ function showEditForm(patient) {
   parent.style.display = "none";
 
   copy.querySelector("article").dataset.id = patient._id;
-  copy.querySelector("#edit_num").value = patient.num;
-  copy.querySelector("#edit_confirmed_date").value = patient.confirmed_date;
+  copy.querySelector(".num").value = patient.num;
+  copy.querySelector(".confirmed_date").value = patient.confirmed_date;
   copy.querySelectorAll("[name='status']").forEach((ele) => {
     if (ele.value == patient.status) {
       ele.checked = true;
@@ -104,54 +122,9 @@ function showEditForm(patient) {
     const form = document.querySelector(
       `.editForm[data-id="${patient._id}"] form`
     );
-    const elements = form.elements;
     form.setAttribute("novalidate", true);
-
     e.preventDefault();
-    let validForm = false;
-
-    const formElements = form.querySelectorAll("input");
-    formElements.forEach((ele) => {
-      ele.classList.remove("invalid");
-      if (!ele.checkValidity()) {
-        ele.classList.add("invalid");
-      }
-    });
-
-    const route = form.querySelector("#edit_route");
-    const route_p = form.querySelector("#edit_route p");
-    const cbs = [...form.querySelectorAll("[name='route']")];
-    const checked = cbs.filter((ele) => ele.checked);
-    if (checked.length > 0) {
-      route.classList.remove("invalid");
-      route_p.classList.add("hidden");
-      validForm = true;
-    } else {
-      route.classList.add("invalid");
-      route_p.classList.remove("hidden");
-    }
-    console.log(elements);
-
-    if (form.checkValidity() && validForm) {
-      put(
-        {
-          num: elements.num.value,
-          confirmed_date: elements.confirmed_date.value,
-          status: elements.status.value,
-          route: checked.map((ele) => ele.value),
-        },
-        patient._id
-      );
-      console.log("submitted " + elements.num.value);
-      form.reset();
-    } else {
-      formElements.forEach((ele) => {
-        if (!ele.checkValidity()) {
-          ele.classList.add("invalid");
-        }
-      });
-      console.log("validation error!!");
-    }
+    checkValidation(form);
   });
   copy.querySelector(".cancelBtn").addEventListener("click", () => {
     parent.style.display = "block";

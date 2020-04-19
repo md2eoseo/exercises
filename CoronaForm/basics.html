@@ -11,13 +11,18 @@
       <legend>COVID-19 Confirmed Patient</legend>
       <form id="postForm">
         <label for="num">Patient Number</label>
-        <input id="num" name="num" required />
+        <input class="num" name="num" required />
         <p>Please provide appropriate patient number.</p>
 
         <label for="confirmed_date">Confirmed Date</label>
-        <input type="date" id="confirmed_date" name="confirmed_date" required />
+        <input
+          type="date"
+          class="confirmed_date"
+          name="confirmed_date"
+          required
+        />
         <p>Please provide appropriate confiremd date.</p>
-        <fieldset id="status">
+        <fieldset class="status">
           <legend>Status</legend>
           <input
             type="radio"
@@ -42,7 +47,7 @@
           />
           <label for="full recovery">Full Recovery</label>
         </fieldset>
-        <fieldset id="route">
+        <fieldset class="route">
           <p class="hidden">Please select at least one place.</p>
           <legend>Visited Place</legend>
           <input type="checkbox" id="park" name="route" value="park" />
@@ -74,19 +79,19 @@
       <article class="editForm" data-id>
         <form>
           <label for="num">Patient Number</label>
-          <input id="edit_num" name="num" required />
+          <input class="num" name="num" required />
           <p>Please provide appropriate patient number.</p>
 
           <label for="confirmed_date">Confirmed Date</label>
           <input
             type="date"
-            id="edit_confirmed_date"
+            class="confirmed_date"
             name="confirmed_date"
             required
           />
           <p>Please provide appropriate confiremd date.</p>
 
-          <fieldset id="edit_status">
+          <fieldset class="status">
             <legend>Status</legend>
             <input
               type="radio"
@@ -111,7 +116,7 @@
             />
             <label for="full recovery">Full Recovery</label>
           </fieldset>
-          <fieldset id="edit_route">
+          <fieldset class="route">
             <p class="hidden">Please select at least one place.</p>
             <legend>Visited Place</legend>
             <input type="checkbox" id="park" name="route" value="park" />
