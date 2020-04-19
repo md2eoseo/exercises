@@ -60,8 +60,9 @@ function checkValidation(form) {
         form.parentNode.dataset.id
       );
       console.log("edited " + elements.num.value);
-      form.reset();
+      form.parentNode.remove();
     }
+    return true;
   } else {
     formElements.forEach((ele) => {
       if (!ele.checkValidity()) {
@@ -102,7 +103,7 @@ function showEditForm(patient) {
   const template = document.querySelector("template#editForm").content;
   const copy = template.cloneNode(true);
   const parent = document.querySelector(`article[data-id="${patient._id}"]`);
-  parent.style.display = "none";
+  parent.classList.add("hidden");
 
   copy.querySelector("article").dataset.id = patient._id;
   copy.querySelector(".num").value = patient.num;
@@ -124,10 +125,26 @@ function showEditForm(patient) {
     );
     form.setAttribute("novalidate", true);
     e.preventDefault();
-    checkValidation(form);
+    if (checkValidation(form)) {
+      const elements = form.elements;
+      let status = "";
+      const route = [];
+      parent.querySelector("#num").textContent = elements.num.value;
+      parent.querySelector("#confirmed_date").textContent =
+        " - Confirmed on " + elements.confirmed_date.value.slice(0, 10);
+      form.querySelectorAll("[name='status']").forEach((ele) => {
+        if (ele.checked == true) status = ele.value;
+        parent.querySelector("#status").textContent = status;
+      });
+      form.querySelectorAll("[name='route']").forEach((ele) => {
+        if (ele.checked == true) route.push(ele.value);
+        parent.querySelector("#route").textContent = route;
+      });
+      parent.classList.remove("hidden");
+    }
   });
   copy.querySelector(".cancelBtn").addEventListener("click", () => {
-    parent.style.display = "block";
+    parent.classList.remove("hidden");
     document
       .querySelector(`article.editForm[data-id="${patient._id}"]`)
       .remove();
@@ -146,9 +163,7 @@ function put(data, id) {
       "cache-control": "no-cache",
     },
     body: postData,
-  })
-    .then((d) => d.json())
-    .then(get);
+  }).then((d) => d.json());
 }
 
 function deleteIt(id) {
