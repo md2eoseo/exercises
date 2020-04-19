@@ -2,10 +2,10 @@
 const DB_URL = "https://corona-57d4.restdb.io/rest/patients";
 const API_KEY = "5e98bd75436377171a0c24a6";
 
-const form = document.querySelector("form");
+const form = document.querySelector("#postForm");
 const elements = form.elements;
-form.setAttribute("novalidate", true);
 form.addEventListener("submit", (e) => {
+  form.setAttribute("novalidate", true);
   e.preventDefault();
   let validForm = false;
 
@@ -100,7 +100,59 @@ function showEditForm(patient) {
     });
   });
 
-  copy.querySelector(".saveBtn").addEventListener("click", () => {});
+  copy.querySelector(".saveBtn").addEventListener("click", (e) => {
+    const form = document.querySelector(
+      `.editForm[data-id="${patient._id}"] form`
+    );
+    const elements = form.elements;
+    form.setAttribute("novalidate", true);
+
+    e.preventDefault();
+    let validForm = false;
+
+    const formElements = form.querySelectorAll("input");
+    formElements.forEach((ele) => {
+      ele.classList.remove("invalid");
+      if (!ele.checkValidity()) {
+        ele.classList.add("invalid");
+      }
+    });
+
+    const route = form.querySelector("#edit_route");
+    const route_p = form.querySelector("#edit_route p");
+    const cbs = [...form.querySelectorAll("[name='route']")];
+    const checked = cbs.filter((ele) => ele.checked);
+    if (checked.length > 0) {
+      route.classList.remove("invalid");
+      route_p.classList.add("hidden");
+      validForm = true;
+    } else {
+      route.classList.add("invalid");
+      route_p.classList.remove("hidden");
+    }
+    console.log(elements);
+
+    if (form.checkValidity() && validForm) {
+      put(
+        {
+          num: elements.num.value,
+          confirmed_date: elements.confirmed_date.value,
+          status: elements.status.value,
+          route: checked.map((ele) => ele.value),
+        },
+        patient._id
+      );
+      console.log("submitted " + elements.num.value);
+      form.reset();
+    } else {
+      formElements.forEach((ele) => {
+        if (!ele.checkValidity()) {
+          ele.classList.add("invalid");
+        }
+      });
+      console.log("validation error!!");
+    }
+  });
   copy.querySelector(".cancelBtn").addEventListener("click", () => {
     parent.style.display = "block";
     document
@@ -109,6 +161,21 @@ function showEditForm(patient) {
   });
 
   parent.after(copy);
+}
+
+function put(data, id) {
+  const postData = JSON.stringify(data);
+  fetch(DB_URL + "/" + id, {
+    method: "put",
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+      "x-apikey": API_KEY,
+      "cache-control": "no-cache",
+    },
+    body: postData,
+  })
+    .then((d) => d.json())
+    .then(get);
 }
 
 function deleteIt(id) {

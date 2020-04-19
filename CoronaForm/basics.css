@@ -32,12 +32,12 @@ fieldset#main > legend {
   font-size: x-large;
 }
 
-form > * {
+#postForm > * {
   display: block;
 }
 
-form > p,
-form > fieldset {
+#postForm > p,
+#postForm > fieldset {
   margin-bottom: 15px;
 }
 
