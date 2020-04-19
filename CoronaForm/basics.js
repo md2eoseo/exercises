@@ -63,7 +63,6 @@ function showPatient(patient) {
   const copy = template.cloneNode(true);
   const parent = document.querySelector("main");
 
-  // Error: when we add new patient, we can only get undefined _id before the record really inserted in database.
   copy.querySelector("article").dataset.id = patient._id;
   copy.querySelector("#num").textContent = patient.num;
   copy.querySelector("#confirmed_date").textContent =
@@ -71,21 +70,21 @@ function showPatient(patient) {
   copy.querySelector("#status").textContent = patient.status;
   copy.querySelector("#route").textContent = patient.route;
 
-  // Error: when we add new patient, we can only get undefined _id before the record really inserted in database.
   copy.querySelector(".deleteBtn").addEventListener("click", () => {
     deleteIt(patient._id);
   });
   copy.querySelector(".editBtn").addEventListener("click", () => {
-    getSinglePatient(patient);
+    showEditForm(patient);
   });
 
   parent.appendChild(copy);
 }
 
-function getSinglePatient(patient) {
+function showEditForm(patient) {
   const template = document.querySelector("template#editForm").content;
   const copy = template.cloneNode(true);
   const parent = document.querySelector(`article[data-id="${patient._id}"]`);
+  parent.style.display = "none";
 
   copy.querySelector("article").dataset.id = patient._id;
   copy.querySelector("#edit_num").value = patient.num;
@@ -102,10 +101,14 @@ function getSinglePatient(patient) {
   });
 
   copy.querySelector(".saveBtn").addEventListener("click", () => {});
-  copy.querySelector(".cancelBtn").addEventListener("click", () => {});
+  copy.querySelector(".cancelBtn").addEventListener("click", () => {
+    parent.style.display = "block";
+    document
+      .querySelector(`article.editForm[data-id="${patient._id}"]`)
+      .remove();
+  });
 
   parent.after(copy);
-  document.querySelector(`article[data-id="${patient._id}"]`).remove();
 }
 
 function deleteIt(id) {
